@@ -1,0 +1,9 @@
+<?php 
+	require 'config/db.php';
+
+	$id = $_GET['id'];
+
+	mysqli_query($connect, "DELETE FROM orders WHERE id = $id ");
+	
+	header('Location:orders_view.php');
+ ?>
