@@ -47,9 +47,9 @@
                                                     <th><strong>Rendez-vous amoureux</strong></th>
                                                     <th><strong>Nom de la commande</strong></th>
                                                     <th><strong>Nom du client</strong></th>
+                                                    <th><strong>Quantité</strong></th>
                                                     <th><strong>Prix ​​unitaire HT</strong></th>
                                                     <th><strong>Montant total HT</strong></th>
-                                                    <th><strong>Quantité</strong></th>
                                                     <th><strong>Quantité livrée</strong></th>
                                                     <th><strong>Date de la commande</strong></th>
                                                     <th><strong>quantité restante</strong></th>
@@ -82,9 +82,9 @@
                                                             }
                                                          ?>
                                                     </td>
+                                                    <td><?= $orders_details['quantity'] ?></td>
                                                     <td><?= $orders_details['prix_unitaire_ht'] ?></td>
                                                     <td><?= $orders_details['montant_total_ht'] ?></td>
-                                                    <td><?= $orders_details['quantity'] ?></td>
                                                     <td>
                                                     <?php
                                                         $remainingQty = 0;
