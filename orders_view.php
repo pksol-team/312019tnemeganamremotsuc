@@ -49,9 +49,10 @@
                                                     <th><strong>Nom du client</strong></th>
                                                     <th><strong>Prix ​​unitaire HT</strong></th>
                                                     <th><strong>Montant total HT</strong></th>
+                                                    <th><strong>Quantité</strong></th>
                                                     <th><strong>Quantité livrée</strong></th>
                                                     <th><strong>Date de la commande</strong></th>
-                                                    <th><strong>Quantité</strong></th>
+                                                    <th><strong>quantité restante</strong></th>
                                                     <th><strong>Date de livraison</strong></th>
                                                     <th><strong>Statut de commande</strong></th>
                                                     <th><strong>Date de règlement</strong></th>
@@ -83,20 +84,23 @@
                                                     </td>
                                                     <td><?= $orders_details['prix_unitaire_ht'] ?></td>
                                                     <td><?= $orders_details['montant_total_ht'] ?></td>
+                                                    <td><?= $orders_details['quantity'] ?></td>
                                                     <td>
-                                                    <?php $ordersQty = mysqli_query($connect, "SELECT * FROM order_qunatity WHERE order_id = '$orderID'"); ?>
+                                                    <?php
+                                                        $remainingQty = 0;
+                                                        $ordersQty = mysqli_query($connect, "SELECT * FROM order_qunatity WHERE order_id = '$orderID'"); ?>
                                                         <?php  while ($ordersqty_count = mysqli_fetch_array($ordersQty)) : ?>
-                                                            <?php echo $ordersqty_count['quantity_delivered'].'<br>'; ?>
+                                                            <?php echo '<u>'.$ordersqty_count['quantity_delivered'].'<u><br>'; ?>
+                                                           <?php $remainingQty = $remainingQty + (int)$ordersqty_count['quantity_delivered']?> 
                                                         <?php  endwhile; ?>
                                                     </td>
                                                     <td>
                                                     <?php $ordersQty = mysqli_query($connect, "SELECT * FROM order_qunatity WHERE order_id = '$orderID'"); ?>
                                                         <?php  while ($ordersqty_date = mysqli_fetch_array($ordersQty)) : ?>
-                                                            <?php  echo $ordersqty_date['delivered_date'].'<br>'; ?>
+                                                            <?php  echo '<u>'.$ordersqty_date['delivered_date'].'<u><br>'; ?>
                                                         <?php  endwhile; ?>
                                                     </td>
-                                                    <td><?= $orders_details['quantity'] ?></td>
-                                                    
+                                                    <td><?= (int)$orders_details['quantity'] - $remainingQty ?></td>
                                                     <td><?= $orders_details['placeorder_date'] ?></td>
                                                     <td>
                                                         <?php if ($orders_details['status'] == "delivered") : ?>
