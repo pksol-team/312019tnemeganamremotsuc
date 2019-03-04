@@ -49,8 +49,10 @@
                                                     <th><strong>Nom du client</strong></th>
                                                     <th><strong>Prix ​​unitaire HT</strong></th>
                                                     <th><strong>Montant total HT</strong></th>
-                                                    <th><strong>Quantité</strong></th>
+                                                    <th><strong>Quantité livrée</strong></th>
                                                     <th><strong>Date de la commande</strong></th>
+                                                    <th><strong>Quantité</strong></th>
+                                                    <th><strong>Date de livraison</strong></th>
                                                     <th><strong>Statut de commande</strong></th>
                                                     <th><strong>Date de règlement</strong></th>
                                                     <th><strong>Statut de paiement</strong></th>
@@ -60,32 +62,39 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php 
-                                                        $orders = mysqli_query($connect, "SELECT * FROM orders");
-                                                    ?>
-                                                    <?php  while ($orders_details = mysqli_fetch_array($orders)) : ?>
+                                                    <?php $orders = mysqli_query($connect, "SELECT * FROM orders"); ?>
+                                                    <?php while ($orders_details = mysqli_fetch_array($orders)) : ?>
+                                                    <?php $orderID = $orders_details['id']; ?>
                                                 <tr>
                                                     <td><?= $orders_details['order_no'] ?></td>
                                                     <td><?= $orders_details['order_date'] ?></td>
                                                     <td><?= $orders_details['name'] ?></td>
                                                     <td>
                                                         <?php 
-                                                            
                                                             $user_id = $orders_details['user_id']; 
-
                                                             $query = mysqli_query($connect, "SELECT * FROM user WHERE id = $user_id");
                                                             if ($query != true) {
                                                                 echo 'No User select';
-                                                            }
-                                                            else{
+                                                            } else{
                                                                 $result = mysqli_fetch_array($query);
                                                                 echo $result['fullname'];
                                                             }
                                                          ?>
-
                                                     </td>
                                                     <td><?= $orders_details['prix_unitaire_ht'] ?></td>
                                                     <td><?= $orders_details['montant_total_ht'] ?></td>
+                                                    <td>
+                                                    <?php $ordersQty = mysqli_query($connect, "SELECT * FROM order_qunatity WHERE order_id = '$orderID'"); ?>
+                                                        <?php  while ($ordersqty_count = mysqli_fetch_array($ordersQty)) : ?>
+                                                            <?php echo $ordersqty_count['quantity_delivered'].'<br>'; ?>
+                                                        <?php  endwhile; ?>
+                                                    </td>
+                                                    <td>
+                                                    <?php $ordersQty = mysqli_query($connect, "SELECT * FROM order_qunatity WHERE order_id = '$orderID'"); ?>
+                                                        <?php  while ($ordersqty_date = mysqli_fetch_array($ordersQty)) : ?>
+                                                            <?php  echo $ordersqty_date['delivered_date'].'<br>'; ?>
+                                                        <?php  endwhile; ?>
+                                                    </td>
                                                     <td><?= $orders_details['quantity'] ?></td>
                                                     
                                                     <td><?= $orders_details['placeorder_date'] ?></td>

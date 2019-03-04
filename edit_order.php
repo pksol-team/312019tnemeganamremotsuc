@@ -29,14 +29,17 @@
         $query = mysqli_query($connect, "UPDATE orders SET name='$name', user_id = '$user_id', placeorder_date='$placeorder_date', prix_unitaire_ht = '$prix_unitaire_ht', montant_total_ht='$montant_total_ht',  quantity='$quantity', date_of_payment='$date_of_payment', payment_status='$payment_status',  observation = '$observation', down_payment = '$down_payment',  status = '$status' WHERE id ='$id' ");
         
         if ($query == true) {
-            foreach ($quantity_delivered as $key => $single_quantity) {
-                $single_date = $delivered_date[$key];
-                 mysqli_query($connect , "INSERT INTO order_qunatity (order_id, quantity_delivered, delivered_date) VALUES('$id', '$single_quantity', '$single_date')");  
+            if ($quantity_delivered != NULL) {
+                foreach ($quantity_delivered as $key => $single_quantity) {
+                    if ($single_quantity != '') {
+                        $single_date = $delivered_date[$key];
+                         mysqli_query($connect , "INSERT INTO order_qunatity (order_id, quantity_delivered, delivered_date) VALUES('$id', '$single_quantity', '$single_date')");  
+                    }
+                }
             }
-
-            $_SESSION['msg'] = "Successfully Updated";
-            header('Location:orders_view.php');
-
+        $_SESSION['msg'] = "Commander avec succès Ajouter";
+        $update_url = 'orders_view.php';
+        echo "<script>window.location.href = '$update_url'</script>";
         }
         else{
             $_SESSION['error'] = "Erreur:" .$query ."<br>". $connect->error;

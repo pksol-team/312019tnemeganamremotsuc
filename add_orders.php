@@ -39,16 +39,19 @@
 
             $last_insert_id = mysqli_insert_id($connect);
 
-            
             if ($query == true) {
-                foreach ($quantity_delivered as $key => $single_quantity) {
-                    if ($single_quantity != '') {
-                        $single_date = $delivered_date[$key];
-                         mysqli_query($connect , "INSERT INTO order_qunatity (order_id, quantity_delivered, delivered_date) VALUES('$last_insert_id', '$single_quantity', '$single_date')");  
+                if ($quantity_delivered != NULL) {
+                    foreach ($quantity_delivered as $key => $single_quantity) {
+                        if ($single_quantity != '') {
+                            $single_date = $delivered_date[$key];
+                             mysqli_query($connect , "INSERT INTO order_qunatity (order_id, quantity_delivered, delivered_date) VALUES('$last_insert_id', '$single_quantity', '$single_date')");  
+                        }
                     }
                 }
-                $_SESSION['msg'] = "Commander avec succès Ajouter";
-                header('Location:orders_view.php');
+            $_SESSION['msg'] = "Commander avec succès Ajouter";
+            $update_url = 'orders_view.php';
+            echo "<script>window.location.href = '$update_url'</script>";
+
             }
             else{
                 $_SESSION['error'] = "Erreur:" . $query . "<br>" . $connect->error;
